@@ -21,18 +21,52 @@ GROUP BY
 GO
 
 
+--Average Transaction Cost by Docking Area:
+CREATE VIEW vw_AverageTransactionCostByDockingArea AS
+SELECT
+    da.DockingAreaID,
+    da.DockingAreaName,
+    AVG(t.COST) AS AverageTransactionCost
+FROM
+    Booking b
+JOIN
+    Vehicle v ON b.VehicleID = v.VehicleID
+JOIN
+    DockingArea da ON v.DockingAreaID = da.DockingAreaID
+JOIN
+    [Transaction] t ON b.TransactionID = t.TransactionID
+GROUP BY
+    da.DockingAreaID, da.DockingAreaName;
+
+--Total Revenue by Vehicle Type:
+CREATE VIEW vw_TotalRevenueByVehicleType AS
+SELECT
+    v.VehicleType,
+    SUM(t.COST) AS TotalRevenue,
+    Count(v.VehicleID) as VehicleTypeCount
+FROM
+    Booking b
+JOIN
+    Vehicle v ON b.VehicleID = v.VehicleID
+JOIN
+    [Transaction] t ON b.TransactionID = t.TransactionID
+GROUP BY
+    v.VehicleType;
+
+
 -- View to Display Top Reward Earners:
 CREATE VIEW vwTopRewardEarners
 AS
-SELECT TOP 3
-    R.RewardID,
-    R.RewardPoints,
-    C.FirstName + ' ' + C.LastName AS CustomerName
-FROM 
-    RewardSystem R
-    INNER JOIN Customer C ON R.CustomerID = C.CustomerID
-ORDER BY 
-    R.RewardPoints DESC;
+SELECT
+    r.CustomerID,
+    c.FirstName + ' ' + c.LastName AS CustomerName,
+    SUM(r.RewardPoints) AS TotalRewardPoints
+FROM
+    RewardSystem r
+JOIN
+    Customer c ON r.CustomerID = c.CustomerID
+GROUP BY
+    r.CustomerID, c.FirstName, c.LastName;
 GO
 
 --View to Retrieve All Bookings with Customer Information:

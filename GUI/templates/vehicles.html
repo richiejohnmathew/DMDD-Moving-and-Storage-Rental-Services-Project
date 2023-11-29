@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Management</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add FontAwesome CSS link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 20px;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .btn-success, .btn-home {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .btn-home i {
+            margin-right: 5px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #dee2e6;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            font-size: 0.9em;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+            color: #007bff;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: center; /* Center-align the text field */
+        }
+
+        /* Hide update forms by default */
+        .update-form {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Vehicle Management</h1>
+            </div>
+            <div class="col-md-4 text-right">
+                <a href="{{ url_for('add_vehicle') }}" class="btn btn-success">Add Vehicle</a>
+            </div>
+        </div>
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Vehicle ID</th>
+                    <th>Docking Area ID</th>
+                    <th>Vehicle Type</th>
+                    <th>Registration Number</th>
+                    <th>Current Location</th>
+                    <th>Storage Space Size</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for vehicle in vehicles %}
+                    <tr>
+                        <td>{{ vehicle.VehicleID }}</td>
+                        <td>{{ vehicle.DockingAreaID }}</td>
+                        <td>{{ vehicle.VehicleType }}</td>
+                        <td>{{ vehicle.RegistrationNumber }}</td>
+                        <td>
+                            <span id="currentLocation_{{ vehicle.VehicleID }}">{{ vehicle.CurrentLocation }}</span>
+                            <button class="btn btn-link" onclick="showUpdateForm('{{ vehicle.VehicleID }}')">
+                                <i class="fas fa-pencil-alt"></i> Update
+                            </button>
+                        </td>
+                        <td>{{ vehicle.StorageSpaceSize }}</td>
+                        <td>
+                            <a href="{{ url_for('edit_vehicle', id=vehicle.VehicleID) }}" class="btn btn-primary">Edit</a>
+                            <a href="{{ url_for('delete_vehicle', id=vehicle.VehicleID) }}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    <!-- Update form for each vehicle -->
+                    <tr>
+                        <td colspan="7">
+                            <form method="POST" action="{{ url_for('update_vehicle_location') }}" class="update-form" id="updateForm_{{ vehicle.VehicleID }}">
+                                <div class="form-group">
+                                    <label for="new_location">New Location:</label>
+                                    <input type="text" class="form-control" name="new_location" required style="text-align: center;">
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" name="vehicle_id" value="{{ vehicle.VehicleID }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Location</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js scripts (order matters) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function showUpdateForm(vehicleID) {
+            // Hide other update forms
+            var updateForms = document.querySelectorAll('.update-form');
+            updateForms.forEach(function(form) {
+                form.style.display = 'none';
+            });
+    
+            // Show the selected update form
+            var selectedForm = document.getElementById('updateForm_' + vehicleID);
+            if (selectedForm) {
+                selectedForm.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

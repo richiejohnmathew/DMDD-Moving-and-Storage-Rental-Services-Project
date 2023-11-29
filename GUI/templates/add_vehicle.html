@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Vehicle</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Material Icons stylesheet link -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- Add any additional styling or links to CSS files if needed -->
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="text-center"><i class="material-icons">directions_car</i> Add Vehicle</h2>
+        <form method="POST" action="{{ url_for('add_vehicle') }}">
+            <div class="form-group">
+                <label for="docking_area_id"><i class="material-icons">location_on</i> Docking Area ID:</label>
+                <input type="text" class="form-control" id="docking_area_id" name="docking_area_id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="vehicle_type"><i class="material-icons">directions_bus</i> Vehicle Type:</label>
+                <select class="form-control" id="vehicle_type" name="vehicle_type" required>
+                    <option value="Truck">Truck</option>
+                    <option value="Trailer">Trailer</option>
+                    <!-- Add more options as needed -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="registration_number"><i class="material-icons">confirmation_number</i> Registration Number:</label>
+                <input type="text" class="form-control" id="registration_number" name="registration_number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="current_location"><i class="material-icons">location_searching</i> Current Location:</label>
+                <input type="text" class="form-control" id="current_location" name="current_location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="storage_space_size"><i class="material-icons">space_dashboard</i> Storage Space Size:</label>
+                <input type="number" class="form-control" id="storage_space_size" name="storage_space_size" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block"><i class="material-icons">add</i> Add Vehicle</button>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js scripts (order matters) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Booking</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+
+        button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="text-center">Add Booking</h1>
+      <!-- Home and Back Buttons Container -->
+<div class="btn-container">
+        <!-- Home Button -->
+        <a href="/" class="btn btn-secondary btn-lg"><i class="fas fa-home"></i> Home</a>
+
+        <!-- Back Button
+        <button onclick="goBack()" class="btn btn-secondary btn-lg"><i class="fas fa-arrow-left"></i> Back</button> -->
+    </div>
+
+    <form action="/bookings/add" method="post" class="needs-validation" novalidate>
+        <div class="form-group">
+            <label for="vehicle_id"><i class="fas fa-car"></i> Vehicle ID:</label>
+            <input type="text" class="form-control" id="vehicle_id" name="vehicle_id" required>
+            <div class="invalid-feedback">
+                Please provide a valid vehicle ID.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="customer_id"><i class="fas fa-user"></i> Customer ID:</label>
+            <input type="text" class="form-control" id="customer_id" name="customer_id" required>
+            <div class="invalid-feedback">
+                Please provide a valid customer ID.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="insurance_id"><i class="fas fa-shield-alt"></i> Insurance ID:</label>
+            <input type="text" class="form-control" id="insurance_id" name="insurance_id" required>
+            <div class="invalid-feedback">
+                Please provide a valid insurance ID.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="transaction_id"><i class="fas fa-receipt"></i> Transaction ID:</label>
+            <input type="text" class="form-control" id="transaction_id" name="transaction_id" required>
+            <div class="invalid-feedback">
+                Please provide a valid transaction ID.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pickup_location"><i class="fas fa-map-marker-alt"></i> Pickup Location:</label>
+            <input type="text" class="form-control" id="pickup_location" name="pickup_location" required>
+            <div class="invalid-feedback">
+                Please provide a valid pickup location.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dropoff_location"><i class="fas fa-map-marker-alt"></i> Drop-off Location:</label>
+            <input type="text" class="form-control" id="dropoff_location" name="dropoff_location" required>
+            <div class="invalid-feedback">
+                Please provide a valid drop-off location.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="start_date_time"><i class="far fa-calendar-alt"></i> Start Date and Time:</label>
+            <input type="datetime-local" class="form-control" id="start_date_time" name="start_date_time" required>
+            <div class="invalid-feedback">
+                Please provide a valid start date and time.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="end_date_time"><i class="far fa-calendar-alt"></i> End Date and Time:</label>
+            <input type="datetime-local" class="form-control" id="end_date_time" name="end_date_time" required>
+            <div class="invalid-feedback">
+                Please provide a valid end date and time.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="total_cost"><i class="fas fa-dollar-sign"></i> Total Cost:</label>
+            <input type="text" class="form-control" id="total_cost" name="total_cost" required>
+            <div class="invalid-feedback">
+                Please provide a valid total cost.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Add Booking</button>
+    </form>
+
+
+    <!-- Add Bootstrap JS and Popper.js scripts (order matters) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // Enable form validation with Bootstrap
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+</body>
+</html>

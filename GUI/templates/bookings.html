@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Management</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        body {
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 20px;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .btn-success, .btn-home {
+            background-color: #17a2b8;
+            border-color: #17a2b8;
+        }
+
+        .btn-home i {
+            margin-right: 5px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #dee2e6;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .edit-btn,
+        .delete-btn {
+            font-size: 0.9em;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 5px;
+        }
+
+        .edit-btn:hover,
+        .delete-btn:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h1>Booking Management</h1>
+            </div>
+            <div class="col-md-2 text-right">
+                <a href="/" class="btn btn-secondary btn-home"><i class="fas fa-home"></i> Home</a>
+            </div>
+            <div class="col-md-2 text-right">
+                <a href="{{ url_for('add_booking') }}" class="btn btn-success">Add Booking</a>
+            </div>
+        </div>
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Vehicle ID</th>
+                    <th>Customer ID</th>
+                    <th>Pickup Location</th>
+                    <th>Drop-off Location</th>
+                    <th>Suggested Drop-off Location ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Total Cost</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.BookingID }}</td>
+                        <td>{{ booking.VehicleID }}</td>
+                        <td>{{ booking.CustomerID }}</td>
+                        <td>{{ booking.PickupLocation }}</td>
+                        <td>{{ booking.DropOffLocation }}</td>
+                        <td>{{ booking.SuggestedDropoffLocationID }}</td>
+                        <td>{{ booking.StartDateTime }}</td>
+                        <td>{{ booking.EndDateTime }}</td>
+                        <td>{{ booking.TotalCost }}</td>
+                        <td class="action-buttons">
+                            <a class="btn btn-primary edit-btn" href="{{ url_for('edit_booking', id=booking.BookingID) }}">Edit</a>
+                            <a class="btn btn-danger delete-btn" href="{{ url_for('delete_booking', id=booking.BookingID) }}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js scripts (order matters) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
