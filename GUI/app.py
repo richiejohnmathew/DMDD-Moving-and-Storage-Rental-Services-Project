@@ -127,25 +127,45 @@ def customers():
 @app.route('/customers/add', methods=['GET', 'POST'])
 def add_customer():
     if request.method == 'POST':
+        # Get form data
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        email = request.form['email']
+        raw_password = request.form['password']
+        phone = request.form['phone']
+        address = request.form['address']
+        city = request.form['city']
+        state = request.form['state']
+        zip_code = request.form['zip']
+
+        # Convert the password to bytes for storage in VARBINARY column
+        password_bytes = bytes(raw_password, 'utf-8')
+
+        # Create a new Customer object
         new_customer = Customer(
-            FirstName=request.form['first_name'],
-            LastName=request.form['last_name'],
-            Email=request.form['email'],
-            Password=b'example_password',  # You should hash the password before storing it
-            Phone=request.form['phone'],
-            Address=request.form['address'],
-            City=request.form['city'],
-            State=request.form['state'],
-            ZIP=request.form['zip']
+            FirstName=first_name,
+            LastName=last_name,
+            Email=email,
+            Password=password_bytes,
+            Phone=phone,
+            Address=address,
+            City=city,
+            State=state,
+            ZIP=zip_code
         )
+
+        # Add the new customer to the database
         db.session.add(new_customer)
         db.session.commit()
+
         return redirect(url_for('customers'))
+
     return render_template('add_customer.html')
 
 @app.route('/customers/edit/<int:id>', methods=['GET', 'POST'])
 def edit_customer(id):
     customer = Customer.query.get(id)
+    
     if request.method == 'POST':
         # Update customer details
         customer.FirstName = request.form['first_name']
@@ -157,6 +177,13 @@ def edit_customer(id):
         customer.State = request.form['state']
         customer.ZIP = request.form['zip']
         
+        # Check if a new password is provided
+        new_password = request.form['password']
+        if new_password:
+            # Convert the new password to bytes for storage in VARBINARY column
+            password_bytes = bytes(new_password, 'utf-8')
+            customer.Password = password_bytes
+
         # Commit changes to the database
         db.session.commit()
 

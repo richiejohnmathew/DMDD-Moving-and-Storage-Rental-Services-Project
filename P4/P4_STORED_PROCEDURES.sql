@@ -54,6 +54,28 @@ BEGIN
 END;
 GO
 
+--Update Vehicle Location for triggers
+CREATE PROCEDURE UpdateVehicleLocation
+    @VehicleID INT,
+    @NewLocation VARCHAR(50)
+AS
+BEGIN
+    DECLARE @NewDockingAreaID INT;
+
+    -- Retrieve DockingAreaID for the new location
+    SELECT @NewDockingAreaID = DockingAreaID
+    FROM DockingArea 
+    WHERE DockingAddress = @NewLocation;
+
+    -- Update Vehicle's CurrentLocation and DockingAreaID
+    UPDATE Vehicle
+    SET 
+        CurrentLocation = @NewLocation,
+        DockingAreaID = @NewDockingAreaID
+    WHERE VehicleID = @VehicleID;
+END;
+GO
+
 -- Retrieves customers with the highest reward points.
 CREATE PROCEDURE GetTopRewardEarners
 AS
@@ -81,18 +103,6 @@ BEGIN
 END;
 GO
 
-
---Update Vehicle Location for triggers
-CREATE PROCEDURE UpdateVehicleLocation
-    @VehicleID INT,
-    @NewLocation VARCHAR(50)
-AS
-BEGIN
-    UPDATE Vehicle
-    SET CurrentLocation = @NewLocation
-    WHERE VehicleID = @VehicleID;
-END;
-GO
 
 --Add a customer
 CREATE PROCEDURE spAddCustomer
